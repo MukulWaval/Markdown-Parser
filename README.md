@@ -19,13 +19,20 @@ This project is a **TypeScript-based Markdown parser** designed to process Obsid
 ```
 Markdown-Parser/
 ├── src/
-│   └── parser.ts       # Main parser logic
+│   ├── parser.ts            # Main parser logic
+│   ├── lexer.ts             # Main lexer logic
+│   └── code-generator.ts    # Main code-generator logic
 ├── tests/
-│   └── parser.test.ts  # Test cases for the parser
+│   ├── parser.test.ts            # Main parser logic
+│   ├── lexer.test.ts             # Main lexer logic
+│   └── code-generator.test.ts    # Main code-generator logic
 ├── dist/               # Compiled JavaScript files
+├── index.ts            # Main entry point
 ├── tsconfig.json       # TypeScript configuration
+├── eslint.config.mjs   # eslint configuration
 ├── jest.config.ts      # Jest configuration
 ├── package.json        # Project metadata and scripts
+├── LICENSE.md          # The License file
 └── README.md           # Project documentation
 ```
 
