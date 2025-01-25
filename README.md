@@ -9,12 +9,11 @@ This project is a **TypeScript-based Markdown parser** designed to process Obsid
 ```
 Markdown-Parser/
 ├── src/
-│   ├── parser.ts            # Main parser logic
-│   └── lexer.ts             # Main lexer logic
+│   ├── parser.ts       # Main parser logic
+│   └── lexer.ts        # Main lexer logic
 ├── tests/
-│   ├── parser.test.ts            # Main parser logic
-│   ├── lexer.test.ts             # Main lexer logic
-│   └── code-generator.test.ts    # Main code-generator logic
+│   ├── parser.test.ts  # Main parser logic
+│   └── lexer.test.ts   # Main lexer logic
 ├── dist/               # Compiled JavaScript files
 ├── index.ts            # Main entry point
 ├── tsconfig.json       # TypeScript configuration
