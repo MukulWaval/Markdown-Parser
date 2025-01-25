@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
+    "dev": "npx ts-node index.ts",
     "watch": "tsc --watch",
     "test": "jest",
     "test:watch": "jest --watch",

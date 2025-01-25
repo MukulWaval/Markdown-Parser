@@ -13,9 +13,9 @@ describe("Lexer", () => {
     expect(lexer).toBeInstanceOf(Lexer);
   });
 
-  test("should have a lex method", () => {
-    expect(lexer.lex).toBeDefined();
-    expect(typeof lexer.lex).toBe("function");
+  test("should have a tokenize method", () => {
+    expect(lexer.tokenize).toBeDefined();
+    expect(typeof lexer.tokenize).toBe("function");
   });
 
   test("should initialize options correctly", () => {

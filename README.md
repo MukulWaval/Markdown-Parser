@@ -4,24 +4,13 @@ This project is a **TypeScript-based Markdown parser** designed to process Obsid
 
 ---
 
-## Features
-
-- **Markdown Parsing**: Handles headings, lists, bold, italics, links, and other Markdown syntax.
-- **Jest Testing**: Comprehensive unit tests for robust functionality.
-- **ESLint Integration**: Ensures code quality and adherence to best practices.
-- **TypeScript Support**: Provides type safety and modern JavaScript features.
-- **Automated Workflow**: Scripts for build, test, lint, debug, and watch tasks.
-
----
-
 ## Project Structure
 
 ```
 Markdown-Parser/
 ├── src/
 │   ├── parser.ts            # Main parser logic
-│   ├── lexer.ts             # Main lexer logic
-│   └── code-generator.ts    # Main code-generator logic
+│   └── lexer.ts             # Main lexer logic
 ├── tests/
 │   ├── parser.test.ts            # Main parser logic
 │   ├── lexer.test.ts             # Main lexer logic
@@ -147,16 +136,15 @@ To debug the project in VS Code, configure the `.vscode/launch.json` file:
       "type": "node",
       "request": "launch",
       "name": "Debug TypeScript",
-      "preLaunchTask": "npm: build",
-      "program": "${workspaceFolder}/dist/parser.js",
-      "outFiles": ["${workspaceFolder}/dist/**/*.js"]
-    },
-    {
-      "type": "node",
-      "request": "attach",
-      "name": "Attach Debugger",
-      "port": 9229,
-      "restart": true
+      "program": "${workspaceFolder}/index.ts",
+      "runtimeArgs": ["-r", "ts-node/register"],
+      "cwd": "${workspaceFolder}",
+      "sourceMaps": true,
+      "skipFiles": ["<node_internals>/**"],
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/**",
+        "!**/node_modules/**"
+      ]
     }
   ]
 }

@@ -1,3 +1,11 @@
+export type Token = {
+  type: string;
+  value: string;
+  location: {
+    column: number;
+    line: number;
+  };
+};
 export interface LexerOptions {}
 
 export class Lexer {
@@ -7,7 +15,9 @@ export class Lexer {
     this.options = options;
   }
 
-  public lex(): void {}
+  public tokenize(): Token[] {
+    return [];
+  }
 }
 
 export default Lexer;
