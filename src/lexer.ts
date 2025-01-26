@@ -1,10 +1,6 @@
 export type Token = {
   type: string;
   value: string;
-  location: {
-    column: number;
-    line: number;
-  };
 };
 
 export interface LexerOptions {}
@@ -12,7 +8,7 @@ export interface LexerOptions {}
 /**
  * Lexer class is responsible for tokenizing a given input string
  * into an array of tokens based on specific rules defined for
- * token types such as headings.
+ * token types such as headings, text, and line breaks.
  */
 export class Lexer {
   private options: LexerOptions; // Options for the lexer configuration
@@ -43,38 +39,56 @@ export class Lexer {
    */
   public tokenize(): Token[] {
     const tokens: Token[] = []; // Array to hold the generated tokens
-    let line = 1; // Current line number
-    let column = 1; // Current column number
     let position = 0; // Current position in the input string
 
     while (position < this.input.length) {
-      // Handle new line characters
-      if (this.input[position] === "\n") {
-        line++;
-        column = 1;
-        position++;
-        continue;
-      }
+      const char = this.input[position];
 
-      // Attempt to match a heading token
-      const headingToken = this.matchHeading(
-        this.input,
-        position,
-        line,
-        column
-      );
-      if (headingToken) {
-        tokens.push(headingToken); // Add the matched token to the array
-        position += headingToken.value.length; // Update position
-        column += headingToken.value.length; // Update column
-        continue;
-      }
+      switch (char) {
+        case "\n":
+          const newLineToken = this.lexNewline(tokens);
+          if (newLineToken) {
+            tokens.push(newLineToken);
+          }
+          position++;
+          break;
 
-      position++; // Move to the next character
-      column++; // Increment column count
+        case "#":
+          const headingToken = this.matchHeading(this.input, position);
+          if (headingToken) {
+            tokens.push(headingToken);
+            position += headingToken.value.length;
+            break;
+          }
+          position++;
+          break;
+
+        default:
+          const textToken = this.matchText(this.input, position);
+          if (textToken) {
+            tokens.push(textToken);
+            position += textToken.value.length;
+            break;
+          }
+          position++;
+          break;
+      }
     }
 
     return tokens; // Return the array of tokens
+  }
+
+  /**
+   * Lexes a newline character and adds it to the tokens array.
+   *
+   * @param tokens - The array of tokens to append to.
+   * @returns A Token object representing the newline character.
+   */
+  private lexNewline(tokens: Token[]): Token | null {
+    return {
+      type: "LINE_BREAK",
+      value: "\n"
+    };
   }
 
   /**
@@ -82,29 +96,37 @@ export class Lexer {
    *
    * @param input - The input string to search within.
    * @param position - The current position in the input string.
-   * @param line - The current line number.
-   * @param column - The current column number.
    * @returns A Token object if a heading is matched, otherwise null.
    */
-  private matchHeading(
-    input: string,
-    position: number,
-    line: number,
-    column: number
-  ): Token | null {
-    const match = input.slice(position).match(/^(#{1,6})\s+(.*)/); // Regex to match headings
+  private matchHeading(input: string, position: number): Token | null {
+    const match = input.slice(position).match(/^(#{1,6})/); // Regex to match hashes for headings
     if (match) {
-      const [matched, hashes, text] = match; // Destructure the match result
+      const [hashes] = match; // Extract the hashes
       return {
         type: `HEADING_${hashes.length}`, // Determine the token type based on the number of hashes
-        value: matched, // The matched heading text
-        location: {
-          line, // Line number of the token
-          column // Column number of the token
-        }
+        value: hashes // The matched hashes
       };
     }
     return null; // Return null if no heading is matched
+  }
+
+  /**
+   * Matches plain text in the input string starting from a given position.
+   *
+   * @param input - The input string to search within.
+   * @param position - The current position in the input string.
+   * @returns A Token object if text is matched, otherwise null.
+   */
+  private matchText(input: string, position: number): Token | null {
+    const match = input.slice(position).match(/^[^\n]+/); // Regex to match plain text
+    if (match) {
+      const [text] = match; // Extract the matched text
+      return {
+        type: "TEXT", // Token type for plain text
+        value: text // Trim any leading/trailing whitespace
+      };
+    }
+    return null; // Return null if no text is matched
   }
 }
 
