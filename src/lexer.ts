@@ -1,5 +1,13 @@
 export type Token = {
-  type: string;
+  type:
+    | "HEADING_1"
+    | "HEADING_2"
+    | "HEADING_3"
+    | "HEADING_4"
+    | "HEADING_5"
+    | "HEADING_6"
+    | "TEXT"
+    | "LINE_BREAK";
   value: string;
 };
 
@@ -104,7 +112,7 @@ export class Lexer {
     if (match) {
       const [hashes] = match; // Extract the hashes
       return {
-        type: `HEADING_${hashes.trim().length}`, // Determine the token type based on the number of hashes
+        type: `HEADING_${hashes.trim().length}` as Token["type"], // Determine the token type based on the number of hashes
         value: hashes // The matched hashes
       };
     }
