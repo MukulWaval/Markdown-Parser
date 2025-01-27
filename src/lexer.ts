@@ -56,12 +56,13 @@ export class Lexer {
         case "#":
           const headingToken = this.matchHeading(this.input, position);
           if (headingToken) {
-            tokens.push(headingToken);
+            tokens.push({
+              type: headingToken.type,
+              value: headingToken.value.trim()
+            });
             position += headingToken.value.length;
             break;
           }
-          position++;
-          break;
 
         default:
           const textToken = this.matchText(this.input, position);
@@ -99,11 +100,11 @@ export class Lexer {
    * @returns A Token object if a heading is matched, otherwise null.
    */
   private matchHeading(input: string, position: number): Token | null {
-    const match = input.slice(position).match(/^(#{1,6})/); // Regex to match hashes for headings
+    const match = input.slice(position).match(/^(#{1,6})\s+/); // Regex to match hashes for headings
     if (match) {
       const [hashes] = match; // Extract the hashes
       return {
-        type: `HEADING_${hashes.length}`, // Determine the token type based on the number of hashes
+        type: `HEADING_${hashes.trim().length}`, // Determine the token type based on the number of hashes
         value: hashes // The matched hashes
       };
     }

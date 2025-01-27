@@ -65,7 +65,7 @@ describe("Lexer", () => {
     const tokens: Token[] = lexer.tokenize();
     expect(tokens).toEqual([
       { type: "HEADING_1", value: "#" },
-      { type: "TEXT", value: " Heading 1" }
+      { type: "TEXT", value: "Heading 1" }
     ]);
   });
 
@@ -74,10 +74,10 @@ describe("Lexer", () => {
     const tokens: Token[] = lexer.tokenize();
     expect(tokens).toEqual([
       { type: "HEADING_2", value: "##" },
-      { type: "TEXT", value: " Heading 2" },
+      { type: "TEXT", value: "Heading 2" },
       { type: "LINE_BREAK", value: "\n" },
       { type: "HEADING_3", value: "###" },
-      { type: "TEXT", value: " Heading 3" }
+      { type: "TEXT", value: "Heading 3" }
     ]);
   });
 
@@ -92,7 +92,7 @@ describe("Lexer", () => {
       },
       {
         type: "TEXT",
-        value: " Hello, World!"
+        value: "Hello, World!"
       }
     ]);
 
@@ -105,7 +105,7 @@ describe("Lexer", () => {
       },
       {
         type: "TEXT",
-        value: " Hello, World!"
+        value: "Hello, World!"
       }
     ]);
 
@@ -118,7 +118,7 @@ describe("Lexer", () => {
       },
       {
         type: "TEXT",
-        value: " Hello, World!"
+        value: "Hello, World!"
       }
     ]);
 
@@ -131,7 +131,7 @@ describe("Lexer", () => {
       },
       {
         type: "TEXT",
-        value: " Hello, World!"
+        value: "Hello, World!"
       }
     ]);
 
@@ -144,7 +144,7 @@ describe("Lexer", () => {
       },
       {
         type: "TEXT",
-        value: " Hello, World!"
+        value: "Hello, World!"
       }
     ]);
 
@@ -157,7 +157,7 @@ describe("Lexer", () => {
       },
       {
         type: "TEXT",
-        value: " Hello, World!"
+        value: "Hello, World!"
       }
     ]);
   });
@@ -172,17 +172,23 @@ describe("Lexer", () => {
     ]);
   });
 
+  test("should correctly tokenize text with hashes", () => {
+    lexer.setInput("##Hello World");
+    const tokens: Token[] = lexer.tokenize();
+    expect(tokens).toEqual([{ type: "TEXT", value: "##Hello World" }]);
+  });
+
   test("should tokenize mixed content", () => {
     lexer.setInput("# Heading\nSome text\n## Subheading\nMore text");
     const tokens: Token[] = lexer.tokenize();
     expect(tokens).toEqual([
       { type: "HEADING_1", value: "#" },
-      { type: "TEXT", value: " Heading" },
+      { type: "TEXT", value: "Heading" },
       { type: "LINE_BREAK", value: "\n" },
       { type: "TEXT", value: "Some text" },
       { type: "LINE_BREAK", value: "\n" },
       { type: "HEADING_2", value: "##" },
-      { type: "TEXT", value: " Subheading" },
+      { type: "TEXT", value: "Subheading" },
       { type: "LINE_BREAK", value: "\n" },
       { type: "TEXT", value: "More text" }
     ]);
