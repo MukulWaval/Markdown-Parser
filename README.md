@@ -2,6 +2,8 @@
 
 This project is a **TypeScript-based Markdown parser** designed to process Obsidian-flavored Markdown and convert it into a desired output format. It includes a fully automated development workflow with build, testing, linting, and debugging capabilities.
 
+$\int_{a}^{b} u v^\prime \ \mathrm{d}x = [ uv ]_a^b - \int_{a}^{b} u^\prime v \ \mathrm{d}x$
+
 ---
 
 ## Project Structure
